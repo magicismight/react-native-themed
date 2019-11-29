@@ -1,4 +1,4 @@
-import React, { ComponentType, forwardRef, Ref, useContext } from 'react';
+import React, { ComponentType, forwardRef, Ref, useContext, PropsWithChildren } from 'react';
 import { StyleProp, StyleSheet } from 'react-native';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 
@@ -46,7 +46,7 @@ function transformThemedProperties(mode: string, object?: { [key: string]: any }
   return themedObject;
 }
 
-function useThemedProps<S extends object /** style types */, P extends { style?: S } /** prop types */>(props: ThemeProps<S, P>): P {
+function useThemedProps<S extends object /** style types */, P extends { style?: S } /** prop types */>(props: PropsWithChildren<ThemeProps<S, P>>): P {
   const theme = useContext(ThemeContext);
   const { style, ...originalProps } = props;
   return {
@@ -57,10 +57,10 @@ function useThemedProps<S extends object /** style types */, P extends { style?:
 
 
 export default function createThemedComponent<P, S extends object>(
-  Component: ComponentType<P>
+  Component: ComponentType<PropsWithChildren<P>>
 ) {
   function ThemedComponent(
-    props: ThemeProps<S, P>,
+    props: PropsWithChildren<ThemeProps<S, P>>,
     ref: Ref<ComponentType<ThemeProps<S, P>>>
   ) {
     const themedProps = useThemedProps(props);
