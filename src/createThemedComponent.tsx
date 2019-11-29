@@ -27,7 +27,7 @@ export type ThemeProps<
   : P[K]
 };
 
-function transformThemedProperties(mode: string, object?: object | null | false) {
+function transformThemedProperties(mode: string, object?: { [key: string]: any } | null | false) {
   if (!object) {
     return {};
   }
@@ -35,7 +35,7 @@ function transformThemedProperties(mode: string, object?: object | null | false)
   const themedObject = Object.create(null);
 
   for (const key of Object.keys(object)) {
-    const value = themedObject[key];
+    const value = object[key];
     if (value instanceof ThemedValue) {
       themedObject[key] = value.selectValue(mode);
     } else {
@@ -51,7 +51,7 @@ function useThemedProps<S extends object /** style types */, P extends { style?:
   const { style, ...originalProps } = props;
   return {
     ...transformThemedProperties(theme, originalProps),
-    style: transformThemedProperties(theme, (StyleSheet.flatten(props.style) as unknown) as object)
+    style: transformThemedProperties(theme, StyleSheet.flatten(style))
   };
 }
 
