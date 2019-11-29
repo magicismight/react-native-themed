@@ -1,4 +1,4 @@
-import React, { ComponentType, forwardRef, Ref, PropsWithoutRef, useContext } from 'react';
+import React, { ComponentType, forwardRef, Ref, useContext } from 'react';
 import { StyleProp, StyleSheet } from 'react-native';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 
@@ -55,9 +55,10 @@ function useThemedProps<S extends object /** style types */, P extends { style?:
   };
 }
 
+
 export default function createThemedComponent<P, S extends object>(
   Component: ComponentType<P>
-): ComponentType<PropsWithoutRef<ThemeProps<S, P>>> {
+) {
   function ThemedComponent(
     props: ThemeProps<S, P>,
     ref: Ref<ComponentType<ThemeProps<S, P>>>
