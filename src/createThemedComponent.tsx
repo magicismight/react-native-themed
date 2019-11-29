@@ -1,4 +1,4 @@
-import React, { ComponentType, forwardRef, Ref, PropsWithoutRef, PropsWithChildren, useContext } from 'react';
+import React, { ComponentType, forwardRef, Ref, PropsWithoutRef, useContext } from 'react';
 import { StyleProp, StyleSheet } from 'react-native';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 
