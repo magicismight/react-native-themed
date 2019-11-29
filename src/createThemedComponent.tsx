@@ -58,7 +58,7 @@ function useThemedProps<S extends object /** style types */, P extends { style?:
 
 export default function createThemedComponent<P, S extends object>(
   Component: ComponentType<PropsWithChildren<P>>
-) {
+): React.ForwardRefExoticComponent<React.PropsWithoutRef<PropsWithChildren<ThemeProps<S, P>>> & React.RefAttributes<React.ComponentType<PropsWithChildren<ThemeProps<S, P>>>>> {
   function ThemedComponent(
     props: PropsWithChildren<ThemeProps<S, P>>,
     ref: Ref<ComponentType<ThemeProps<S, P>>>
