@@ -24,7 +24,7 @@ export type ThemeProps<
 > = {
 [K in keyof P]: K extends 'style'
   ? StyleProp<ThemeStyle<S>>
-  : P[K]
+  : P[K] | ThemedValue<{ [name: string]: string }>
 };
 
 function transformThemedProperties(mode: string, object?: { [key: string]: any } | null | false) {
