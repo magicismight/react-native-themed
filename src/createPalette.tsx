@@ -3,7 +3,7 @@
  */
 
 export default function definePalette<
-  D extends { [name: string]: string },
+  D extends { [name: string]: string | undefined },
   S extends { [name: string]: string }
 >(
   definition: {
@@ -11,12 +11,12 @@ export default function definePalette<
   }
 ): {
   [KD in keyof D]: {
-    [KS in keyof S]: string;
+    [KS in keyof S]: string | undefined;
   };
 } {
   const palette = Object.create(null) as {
     [KD in keyof D]: {
-      [KS in keyof S]: string;
+      [KS in keyof S]: string | undefined;
     };
   };
 
