@@ -13,7 +13,7 @@ export type ThemeStyle<S extends object> = {
       ? ThemeStyle<S[K]>
       :
           | S[K]
-          | ThemedValue<{ [name: string]: string }, string>)
+          | ThemedValue<{ [name: string]: string | undefined }, string | undefined>)
 };
 
 export type ThemeProps<
