@@ -13,7 +13,7 @@ export type ThemeStyle<S extends object> = {
       ? ThemeStyle<S[K]>
       :
           | S[K]
-          | ThemedValue<{ [name: string]: string }>)
+          | ThemedValue<{ [name: string]: string }, string>)
 };
 
 export type ThemeProps<
@@ -24,10 +24,10 @@ export type ThemeProps<
 > = {
 [K in keyof P]: K extends 'style'
   ? StyleProp<ThemeStyle<S>>
-  : P[K] | ThemedValue<{ [name: string]: string }>
+  : P[K] | ThemedValue<{ [name: string]: unknown }, unknown>
 };
 
-function transformThemedProperties(mode: string, object?: { [key: string]: any } | null | false) {
+function transformThemedProperties(mode: string, object?: { [key: string]: unknown } | null | false) {
   if (!object) {
     return {};
   }
