@@ -2,21 +2,22 @@
  * Define colors for theme sets.
  */
 
-export default function definePalette<
-  D extends { [name: string]: string | undefined },
-  S extends { [name: string]: string }
+export default function createPalette<
+  D extends { [name: string]: T },
+  S extends { [name: string]: string },
+  T
 >(
   definition: {
     [KS in keyof S]: D;
   }
 ): {
   [KD in keyof D]: {
-    [KS in keyof S]: string | undefined;
+    [KS in keyof S]: T;
   };
 } {
   const palette = Object.create(null) as {
     [KD in keyof D]: {
-      [KS in keyof S]: string | undefined;
+      [KS in keyof S]: T;
     };
   };
 
@@ -27,9 +28,9 @@ export default function definePalette<
         palette[key][mode] = modePalette[key];
       } else {
         palette[key] = {
-          [mode]: modePalette[key] as string
+          [mode]: modePalette[key] as T
         } as {
-          [KS in keyof S]: string;
+          [KS in keyof S]: T;
         };
       }
     }
