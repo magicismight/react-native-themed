@@ -33,8 +33,8 @@ export default function createPalette<
     }
   }
 
-  return Object.keys(palette).reduce((palette, key) => {
-    palette[key] = new ThemedValue(palette[key]);
-    return palette;
+  return Object.keys(palette).reduce((result, key) => {
+    result[key] = new ThemedValue(palette[key]);
+    return result;
   }, Object.create(null));
 }
