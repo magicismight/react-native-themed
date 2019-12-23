@@ -205,3 +205,4 @@ Then the `ThemedLinearGradient` component can use `Themed.Value` inside `style` 
 * Themed.TextInput
 * Themed.Image,
 * Themed.TouchableHighlight
+* Themed.TouchableOpacity

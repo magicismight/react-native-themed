@@ -11,6 +11,7 @@ import FlatList from './components/FlatList';
 import ScrollView from './components/ScrollView';
 import RefreshControl from './components/RefreshControl';
 import TouchableHighlight from './components/TouchableHighlight';
+import TouchableOpacity from './components/TouchableOpacity';
 import View from './components/View';
 import Text from './components/Text';
 import TextInput from './components/TextInput';
@@ -28,5 +29,6 @@ export default {
   Text,
   TextInput,
   Image,
-  TouchableHighlight
+  TouchableHighlight,
+  TouchableOpacity
 }
