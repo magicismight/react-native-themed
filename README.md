@@ -202,5 +202,6 @@ Then the `ThemedLinearGradient` component can use `Themed.Value` inside `style` 
 * Themed.RefreshControl,
 * Themed.View,
 * Themed.Text,
+* Themed.TextInput
 * Themed.Image,
 * Themed.TouchableHighlight

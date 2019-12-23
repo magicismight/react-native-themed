@@ -13,6 +13,7 @@ import RefreshControl from './components/RefreshControl';
 import TouchableHighlight from './components/TouchableHighlight';
 import View from './components/View';
 import Text from './components/Text';
+import TextInput from './components/TextInput';
 import Image from './components/Image';
 import Value from './ThemedValue';
 
@@ -25,6 +26,7 @@ export default {
   RefreshControl,
   View,
   Text,
+  TextInput,
   Image,
   TouchableHighlight
 }
