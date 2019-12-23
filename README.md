@@ -121,6 +121,8 @@ export const BasePalette = {
 
 ```
 
+---
+
 * ### createThemedComponent
 
 `function createThemedComponent<P, S extends object>(Component: ComponentType<PropsWithChildren<P>>, transformer?: (props: PropsWithChildren<ThemeProps<S, P>>, mode: string) => PropsWithChildren<P>)`
@@ -182,3 +184,23 @@ Then the `ThemedLinearGradient` component can use `Themed.Value` inside `style` 
 />
 
 ```
+
+---
+
+* ### Themed.Value
+
+`Themed.Value({ [theme: string]: any })`
+
+---
+
+* ### Preset themed components support
+  
+* Themed.ActivityIndicator,
+* Themed.Button,
+* Themed.FlatList,
+* Themed.ScrollView,
+* Themed.RefreshControl,
+* Themed.View,
+* Themed.Text,
+* Themed.Image,
+* Themed.TouchableHighlight
