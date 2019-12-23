@@ -1,6 +1,7 @@
 /**
  * Define colors for theme sets.
  */
+import ThemedValue from './ThemedValue';
 
 export default function createPalette<
   D extends { [name: string]: T },
@@ -10,11 +11,7 @@ export default function createPalette<
   definition: {
     [KS in keyof S]: D;
   }
-): {
-  [KD in keyof D]: {
-    [KS in keyof S]: T;
-  };
-} {
+): {[KD in keyof D]: ThemedValue<{ [KS in keyof S]: T }, T> } {
   const palette = Object.create(null) as {
     [KD in keyof D]: {
       [KS in keyof S]: T;
@@ -36,5 +33,8 @@ export default function createPalette<
     }
   }
 
-  return palette;
+  return Object.keys(palette).reduce((palette, key) => {
+    palette[key] = new ThemedValue(palette[key]);
+    return palette;
+  }, Object.create(null));
 }
