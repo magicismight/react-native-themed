@@ -35,35 +35,44 @@ function transformThemedProperties(mode: string, object?: { [key: string]: unkno
   const themedObject = Object.create(null);
 
   for (const key of Object.keys(object)) {
-    const value = object[key];
-    if (value instanceof ThemedValue) {
-      themedObject[key] = value.selectValue(mode);
-    } else {
-      themedObject[key] = value;
-    }
+    themedObject[key] = transformValue(object[key], mode);
   }
 
   return themedObject;
 }
 
-function useThemedProps<S extends object /** style types */, P extends { style?: S } /** prop types */>(props: PropsWithChildren<ThemeProps<S, P>>): P {
+export function transformValue<T>(value: T | ThemedValue<{ [name: string]: T }, T>, mode: string): T | undefined {
+  if (value instanceof ThemedValue) {
+    return value.selectValue(mode);
+  } else {
+    return value;
+  }
+}
+
+function useThemedProps<S extends object /** style types */, P extends { style?: S } /** prop types */>(props: PropsWithChildren<ThemeProps<S, P>>, transformer?: (props: PropsWithChildren<ThemeProps<S, P>>, mode: string) => PropsWithChildren<P>): P {
   const theme = useContext(ThemeContext);
-  const { style, ...originalProps } = props;
-  return {
-    ...transformThemedProperties(theme, originalProps),
-    style: transformThemedProperties(theme, StyleSheet.flatten(style))
-  };
+
+  if (transformer) {
+    return transformer(props, theme);
+  } else {
+    const { style, ...noneStyleProps } = props;
+    return {
+      ...transformThemedProperties(theme, noneStyleProps),
+      style: transformThemedProperties(theme, StyleSheet.flatten(style))
+    };
+  }
 }
 
 
 export default function createThemedComponent<P, S extends object>(
-  Component: ComponentType<PropsWithChildren<P>>
+  Component: ComponentType<PropsWithChildren<P>>,
+  transformer?: (props: PropsWithChildren<ThemeProps<S, P>>, mode: string) => PropsWithChildren<P>
 ): React.ForwardRefExoticComponent<React.PropsWithoutRef<PropsWithChildren<ThemeProps<S, P>>> & React.RefAttributes<React.ComponentType<PropsWithChildren<ThemeProps<S, P>>>>> {
   function ThemedComponent(
     props: PropsWithChildren<ThemeProps<S, P>>,
     ref: Ref<ComponentType<ThemeProps<S, P>>>
   ) {
-    const themedProps = useThemedProps(props);
+    const themedProps = useThemedProps(props, transformer);
     return <Component {...themedProps} ref={ref} />;
   }
 

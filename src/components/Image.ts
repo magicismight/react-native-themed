@@ -1,4 +1,5 @@
-import { Image, ImageStyle, ImageProps } from 'react-native';
+import { Image } from 'react-native';
 import createThemedComponent from '../createThemedComponent';
+import { transformPropsWithStyle } from './transformers';
 
-export default createThemedComponent<ImageProps, ImageStyle>(Image);
+export default createThemedComponent(Image, transformPropsWithStyle);
