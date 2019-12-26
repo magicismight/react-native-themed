@@ -30,7 +30,8 @@
     "react",
     "react-native",
     "theme",
-    "dark-mode"
+    "dark-mode",
+    "appearance"
   ],
   "dependencies": {
     "hoist-non-react-statics": "^3.3.1"
