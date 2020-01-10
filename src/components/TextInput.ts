@@ -9,7 +9,8 @@ function transformTextInputProps(props: ThemeProps<TextStyle, TextInputProps>, m
     ...themedStyleProps,
     placeholderTextColor: transformValue(props.placeholderTextColor as string | undefined, mode),
     underlineColorAndroid: transformValue(props.underlineColorAndroid as string | undefined, mode),
-    selectionColor: transformValue(props.selectionColor as string | undefined, mode)
+    selectionColor: transformValue(props.selectionColor as string | undefined, mode),
+    keyboardAppearance: transformValue(props.keyboardAppearance as 'default' | 'light' | 'dark' | undefined, mode),
   };
 }
 
