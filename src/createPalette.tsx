@@ -11,7 +11,7 @@ export default function createPalette<
   definition: {
     [KS in keyof S]: D;
   }
-): {[KD in keyof D]: ThemedValue<{ [KS in keyof S]: T }, T> } {
+): { [KD in keyof D]: ThemedValue<{ [KS in keyof S]: T }, T> } {
   const palette = Object.create(null) as {
     [KD in keyof D]: {
       [KS in keyof S]: T;

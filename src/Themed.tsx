@@ -1,4 +1,3 @@
-
 import ThemeContext from './ThemeContext';
 
 export const ThemeProvider = ThemeContext.Provider;
@@ -31,4 +30,4 @@ export default {
   Image,
   TouchableHighlight,
   TouchableOpacity
-}
+};

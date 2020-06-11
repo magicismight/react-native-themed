@@ -1,13 +1,34 @@
-import { ViewStyle, ScrollView, ScrollViewProps } from 'react-native';
-import createThemedComponent, { transformValue, ThemeStyle, ThemeProps } from '../createThemedComponent';
+import {
+  ViewStyle,
+  ScrollView,
+  ScrollViewProps,
+  StyleProp
+} from 'react-native';
+import createThemedComponent, {
+  transformValue,
+  ThemeStyle,
+  ThemeProps
+} from '../createThemedComponent';
 import { transformStyle } from './transformers';
 import ThemedValue from '../ThemedValue';
 
-
-function transformScrollViewProps(props: ThemeProps<ViewStyle, ScrollViewProps> & {
-  contentContainerStyle?: ThemeStyle<ViewStyle>;
-  indicatorStyle?: ThemedValue<{ [name: string]: string }, string>
-}, mode: string): ScrollViewProps {
+function transformScrollViewProps(
+  props: Omit<
+    ScrollViewProps,
+    'contentContainerStyle' | 'style' | 'endFillColor' | 'indicatorStyle'
+  > & {
+    style?: StyleProp<ThemeStyle<ViewStyle>>;
+    contentContainerStyle?: ThemeStyle<ViewStyle>;
+    endFillColor?:
+      | ThemedValue<{ [name: string]: string | undefined }, string | undefined>
+      | string;
+    indicatorStyle?: ThemedValue<
+      { [name: string]: 'default' | 'black' | 'white' },
+      'default' | 'black' | 'white'
+    >;
+  },
+  mode: string
+): ScrollViewProps {
   const {
     style,
     contentContainerStyle,
@@ -20,9 +41,15 @@ function transformScrollViewProps(props: ThemeProps<ViewStyle, ScrollViewProps> 
     style: transformStyle(style, mode),
     contentContainerStyle: transformStyle(contentContainerStyle, mode),
     endFillColor: transformValue(endFillColor, mode),
-    indicatorStyle: transformValue(indicatorStyle, mode),
+    indicatorStyle: transformValue(indicatorStyle, mode)
   }) as ScrollViewProps;
 }
 
-// @ts-ignore
-export default createThemedComponent(ScrollView, transformScrollViewProps)
+export default createThemedComponent<
+  ScrollViewProps,
+  ViewStyle,
+  Pick<
+    ScrollViewProps,
+    'contentContainerStyle' | 'style' | 'endFillColor' | 'indicatorStyle'
+  >
+>(ScrollView, transformScrollViewProps);

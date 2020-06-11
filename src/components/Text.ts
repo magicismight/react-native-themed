@@ -1,13 +1,22 @@
 import { TextProps, TextStyle, Text } from 'react-native';
-import createThemedComponent, { transformValue, ThemeProps } from '../createThemedComponent';
+import createThemedComponent, {
+  transformValue,
+  ThemeProps
+} from '../createThemedComponent';
 import { transformPropsWithStyle } from './transformers';
 
-function transformTextProps(props: ThemeProps<TextStyle, TextProps>, mode: string): TextProps {
+function transformTextProps(
+  props: ThemeProps<TextStyle, TextProps>,
+  mode: string
+): TextProps {
   const themedStyleProps = transformPropsWithStyle(props, mode);
 
   return {
     ...themedStyleProps,
-    selectionColor: transformValue(props.selectionColor as string | undefined, mode)
+    selectionColor: transformValue(
+      props.selectionColor as string | undefined,
+      mode
+    )
   };
 }
 

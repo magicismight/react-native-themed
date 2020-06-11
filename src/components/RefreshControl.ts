@@ -1,26 +1,48 @@
-import { RefreshControl, RefreshControlProps } from 'react-native';
-import createThemedComponent, { transformValue } from '../createThemedComponent';
+import { RefreshControl, RefreshControlProps, ViewStyle } from 'react-native';
+import createThemedComponent, {
+  transformValue
+} from '../createThemedComponent';
 import ThemedValue from '../ThemedValue';
-import { transformArray } from './transformers';
 
-function transformRefreshControlProps(props: RefreshControlProps
-  & {
-    colors?: Array<ThemedValue<{ [name: string]: string }, string> | string>;
-    progressBackgroundColor?: ThemedValue<{ [name: string]: string }, string>;
-    tintColor?: ThemedValue<{ [name: string]: string }, string>;
-    titleColor?: ThemedValue<{ [name: string]: string }, string>;
-  }
-  , mode: string): RefreshControlProps {
-    const { colors, progressBackgroundColor, tintColor, titleColor } = props;
+function transformRefreshControlProps(
+  props: Omit<
+    RefreshControlProps,
+    'colors' | 'progressBackgroundColor' | 'tintColor' | 'titleColor'
+  > & {
+    colors?:
+      | ThemedValue<
+          { [name: string]: string[] | undefined },
+          string[] | undefined
+        >
+      | string[];
+    progressBackgroundColor?:
+      | ThemedValue<{ [name: string]: string | undefined }, string | undefined>
+      | string;
+    tintColor?:
+      | ThemedValue<{ [name: string]: string | undefined }, string | undefined>
+      | string;
+    titleColor?:
+      | ThemedValue<{ [name: string]: string | undefined }, string | undefined>
+      | string;
+  },
+  mode: string
+): RefreshControlProps {
+  const { colors, progressBackgroundColor, tintColor, titleColor } = props;
 
   return {
     ...props,
-    colors: transformArray(colors, mode) as string[],
+    colors: transformValue(colors, mode),
     progressBackgroundColor: transformValue(progressBackgroundColor, mode),
     tintColor: transformValue(tintColor, mode),
-    titleColor: transformValue(titleColor, mode),
+    titleColor: transformValue(titleColor, mode)
   };
 }
 
-// @ts-ignore
-export default createThemedComponent(RefreshControl, transformRefreshControlProps);
+export default createThemedComponent<
+  RefreshControlProps,
+  ViewStyle,
+  Pick<
+    RefreshControlProps,
+    'colors' | 'progressBackgroundColor' | 'tintColor' | 'titleColor'
+  >
+>(RefreshControl, transformRefreshControlProps);

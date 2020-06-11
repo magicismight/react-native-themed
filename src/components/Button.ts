@@ -1,13 +1,25 @@
-import { Button, ButtonProps } from 'react-native';
-import createThemedComponent, { transformValue } from '../createThemedComponent';
+import { Button, ButtonProps, ViewStyle } from 'react-native';
+import createThemedComponent, {
+  transformValue
+} from '../createThemedComponent';
 import ThemedValue from '../ThemedValue';
 
-function transformButtonProps(props: ButtonProps & { color?: ThemedValue<{ [name: string]: string | undefined }, string | undefined> }, mode: string): ButtonProps {
+function transformButtonProps(
+  props: Omit<ButtonProps, 'color'> & {
+    color?:
+      | ThemedValue<{ [name: string]: string | undefined }, string | undefined>
+      | string;
+  },
+  mode: string
+): ButtonProps {
   return {
     ...props,
-    color: transformValue(props.color as string | undefined, mode)
+    color: transformValue(props.color, mode)
   };
 }
 
-// @ts-ignore
-export default createThemedComponent(Button, transformButtonProps);
+export default createThemedComponent<
+  ButtonProps,
+  ViewStyle,
+  Pick<ButtonProps, 'color'>
+>(Button, transformButtonProps);
