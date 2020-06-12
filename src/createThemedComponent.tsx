@@ -45,7 +45,7 @@ export function transformValue<T>(
 }
 
 export function transformStyle<T>(
-  style: StyleProp<ThemeStyle<T>>,
+  style?: StyleProp<ThemeStyle<T>>,
   mode: string
 ): StyleProp<T> {
   if (!style) {
@@ -82,14 +82,14 @@ function createThemedComponent<
   PropsWithoutRef<
     Omit<P, keyof S> &
       {
-        [K in keyof S]: StyleProp<ThemeStyle<S[K]>>;
+        [K in keyof S]?: StyleProp<ThemeStyle<S[K]>>;
       }
   > &
     RefAttributes<
       ComponentType<
         Omit<P, keyof S> &
           {
-            [K in keyof S]: StyleProp<ThemeStyle<S[K]>>;
+            [K in keyof S]?: StyleProp<ThemeStyle<S[K]>>;
           }
       >
     >
@@ -107,7 +107,7 @@ function createThemedComponent<
     Omit<P, keyof T | keyof S> &
       ThemeProps<T> &
       {
-        [K in keyof S]: StyleProp<ThemeStyle<S[K]>>;
+        [K in keyof S]?: StyleProp<ThemeStyle<S[K]>>;
       }
   > &
     RefAttributes<
@@ -115,7 +115,7 @@ function createThemedComponent<
         Omit<P, keyof T | keyof S> &
           ThemeProps<T> &
           {
-            [K in keyof S]: StyleProp<ThemeStyle<S[K]>>;
+            [K in keyof S]?: StyleProp<ThemeStyle<S[K]>>;
           }
       >
     >
@@ -133,7 +133,7 @@ function createThemedComponent<
     Omit<P, keyof T | keyof S> &
       ThemeProps<T> &
       {
-        [K in keyof S]: StyleProp<ThemeStyle<S[K]>>;
+        [K in keyof S]?: StyleProp<ThemeStyle<S[K]>>;
       }
   > &
     RefAttributes<
@@ -141,7 +141,7 @@ function createThemedComponent<
         Omit<P, keyof T | keyof S> &
           ThemeProps<T> &
           {
-            [K in keyof S]: StyleProp<ThemeStyle<S[K]>>;
+            [K in keyof S]?: StyleProp<ThemeStyle<S[K]>>;
           }
       >
     >
@@ -150,14 +150,14 @@ function createThemedComponent<
     props: Omit<P, keyof T | keyof S> &
       ThemeProps<T> &
       {
-        [K in keyof S]: StyleProp<ThemeStyle<S[K]>>;
+        [K in keyof S]?: StyleProp<ThemeStyle<S[K]>>;
       },
     ref: Ref<
       ComponentType<
         Omit<P, keyof T | keyof S> &
           ThemeProps<T> &
           {
-            [K in keyof S]: StyleProp<ThemeStyle<S[K]>>;
+            [K in keyof S]?: StyleProp<ThemeStyle<S[K]>>;
           }
       >
     >
