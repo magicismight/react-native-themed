@@ -1,5 +1,5 @@
 import { ReactElement, RefAttributes, PropsWithoutRef } from 'react';
-import { ViewStyle, FlatList, FlatListProps } from 'react-native';
+import { ViewStyle, FlatList, FlatListProps, StyleProp } from 'react-native';
 import createThemedComponent, {
   ThemeProps,
   ThemeStyle
@@ -43,7 +43,9 @@ export default createThemedComponent<
           | 'contentContainerStyle'
           | 'ListFooterComponentStyle'
           | 'columnWrapperStyle'
-          | 'ListHeaderComponentStyle']?: ThemeStyle<FlatListProps<T>[K]>;
+          | 'ListHeaderComponentStyle']?: StyleProp<
+          ThemeStyle<FlatListProps<T>[K]>
+        >;
       }
   > &
     RefAttributes<FlatList<T>>
