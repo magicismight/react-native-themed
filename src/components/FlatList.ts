@@ -43,7 +43,7 @@ export default createThemedComponent<
           | 'contentContainerStyle'
           | 'ListFooterComponentStyle'
           | 'columnWrapperStyle'
-          | 'ListHeaderComponentStyle']: ThemeStyle<FlatListProps<T>[K]>;
+          | 'ListHeaderComponentStyle']?: ThemeStyle<FlatListProps<T>[K]>;
       }
   > &
     RefAttributes<FlatList<T>>
