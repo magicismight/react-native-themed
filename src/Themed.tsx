@@ -1,9 +1,12 @@
 import ThemeContext from './ThemeContext';
 
 export const ThemeProvider = ThemeContext.Provider;
-export { default as createThemedComponent } from './createThemedComponent';
+export {
+  default as createThemedComponent,
+  ThemeProps,
+  ThemeStyle
+} from './createThemedComponent';
 export { default as createPalette } from './createPalette';
-export * from './components/transformers';
 import ActivityIndicator from './components/ActivityIndicator';
 import Button from './components/Button';
 import FlatList from './components/FlatList';

@@ -1,5 +1,8 @@
-import { View } from 'react-native';
-import createThemedComponent from '../createThemedComponent';
-import { transformPropsWithStyle } from './transformers';
+import { View, ViewProps, StyleProp } from 'react-native';
 
-export default createThemedComponent(View, transformPropsWithStyle);
+import createThemedComponent from '../createThemedComponent';
+
+export default createThemedComponent<ViewProps, Pick<ViewProps, 'style'>>(
+  View,
+  ['style']
+);

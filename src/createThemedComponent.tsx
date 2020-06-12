@@ -1,11 +1,20 @@
-import React, { ComponentType, forwardRef, Ref, useContext } from 'react';
-import { StyleProp, StyleSheet } from 'react-native';
+import React, {
+  ComponentType,
+  forwardRef,
+  Ref,
+  useContext,
+  ReactElement,
+  PropsWithoutRef,
+  RefAttributes,
+  ForwardRefExoticComponent
+} from 'react';
+import { StyleSheet, StyleProp } from 'react-native';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 
 import ThemedValue from './ThemedValue';
 import ThemeContext from './ThemeContext';
 
-export type ThemeStyle<S extends object> = {
+export type ThemeStyle<S> = {
   [K in keyof S]: S[K] extends ReadonlyArray<any>
     ? ReadonlyArray<ThemeStyle<S[K][0]>>
     : S[K] extends object
@@ -20,34 +29,9 @@ export type ThemeStyle<S extends object> = {
           >;
 };
 
-export type ThemeProps<
-  S extends object, // style props
-  P extends {
-    // props type
-    style?: StyleProp<S>;
-  }
-> = {
-  [K in keyof P]: K extends 'style'
-    ? StyleProp<ThemeStyle<S>>
-    : P[K] | ThemedValue<{ [name: string]: P[K] }, P[K]>;
+export type ThemeProps<P extends object> = {
+  [K in keyof P]: P[K] | ThemedValue<{ [name: string]: P[K] }, P[K]>;
 };
-
-function transformThemedProperties(
-  mode: string,
-  object?: { [key: string]: unknown } | null | false
-) {
-  if (!object) {
-    return {};
-  }
-
-  const themedObject = Object.create(null);
-
-  for (const key of Object.keys(object)) {
-    themedObject[key] = transformValue(object[key], mode);
-  }
-
-  return themedObject;
-}
 
 export function transformValue<T>(
   value: T | ThemedValue<{ [name: string]: T }, T>,
@@ -60,58 +44,141 @@ export function transformValue<T>(
   }
 }
 
-function useThemedProps<
-  S extends object /** style types */,
-  P extends { style?: S } /** prop types */,
-  T extends Partial<P>
->(
-  props: Omit<P, keyof T> & ThemeProps<S, T>,
-  transformer?: (props: Omit<P, keyof T> & ThemeProps<S, T>, mode: string) => P
-): P {
-  const theme = useContext(ThemeContext);
+export function transformStyle<T>(
+  style: StyleProp<ThemeStyle<T>>,
+  mode: string
+): StyleProp<T> {
+  if (!style) {
+    return style as StyleProp<T>;
+  }
 
-  if (transformer) {
-    return transformer(props, theme);
+  const flattenStyle = StyleSheet.flatten(style);
+
+  const themedStyle = Object.create(null);
+  let hasThemedStyle: boolean = false;
+  for (const key of Object.keys(flattenStyle) as Array<keyof T>) {
+    const styleValue = flattenStyle[key];
+    themedStyle[key] = transformValue(styleValue, mode);
+
+    if (!hasThemedStyle && themedStyle[key] !== styleValue) {
+      hasThemedStyle = true;
+    }
+  }
+
+  if (!hasThemedStyle) {
+    return style as StyleProp<T>;
   } else {
-    const { style, ...noneStyleProps } = props;
-    return {
-      ...transformThemedProperties(theme, noneStyleProps),
-      style: transformThemedProperties(theme, StyleSheet.flatten(style))
-    };
+    return themedStyle as StyleProp<T>;
   }
 }
 
-/**
- * @example
- * function transformButtonProps(
- *   props: Omit<ButtonProps, 'color'> & {
- *     color?:
- *       | ThemedValue<{ [name: string]: string | undefined }, string | undefined>
- *       | string;
- *   },
- *   mode: string
- * ): ButtonProps;
- * createThemedComponent<
- *   ButtonProps,
- *   ViewStyle,
- *   Pick<ButtonProps, 'color'>
- * >(Button, transformButtonProps)
- */
-export default function createThemedComponent<
-  P,
-  S extends object,
-  T extends Partial<P>
+function createThemedComponent<
+  P extends object, // original props
+  S extends Partial<P> // themed style props
 >(
   Component: ComponentType<P>,
-  transformer?: (props: Omit<P, keyof T> & ThemeProps<S, T>, mode: string) => P
-) {
+  styles: Array<keyof S>
+): ForwardRefExoticComponent<
+  PropsWithoutRef<
+    Omit<P, keyof S> &
+      {
+        [K in keyof S]: ThemeStyle<S[K]>;
+      }
+  > &
+    RefAttributes<
+      ComponentType<
+        Omit<P, keyof S> &
+          {
+            [K in keyof S]: ThemeStyle<S[K]>;
+          }
+      >
+    >
+>;
+function createThemedComponent<
+  P extends object, // original props
+  S extends Partial<P>, // themed style props
+  T extends Partial<P> // themed common props
+>(
+  Component: ComponentType<P>,
+  styles: Array<keyof S>,
+  themed: Array<keyof T>
+): ForwardRefExoticComponent<
+  PropsWithoutRef<
+    Omit<P, keyof T | keyof S> &
+      ThemeProps<T> &
+      {
+        [K in keyof S]: ThemeStyle<S[K]>;
+      }
+  > &
+    RefAttributes<
+      ComponentType<
+        Omit<P, keyof T | keyof S> &
+          ThemeProps<T> &
+          {
+            [K in keyof S]: ThemeStyle<S[K]>;
+          }
+      >
+    >
+>;
+function createThemedComponent<
+  P extends object, // original props
+  S extends Partial<P>, // themed style props
+  T extends Partial<P> // themed common props
+>(
+  Component: ComponentType<P>,
+  styles: Array<keyof S>,
+  themed?: Array<keyof T>
+): ForwardRefExoticComponent<
+  PropsWithoutRef<
+    Omit<P, keyof T | keyof S> &
+      ThemeProps<T> &
+      {
+        [K in keyof S]: ThemeStyle<S[K]>;
+      }
+  > &
+    RefAttributes<
+      ComponentType<
+        Omit<P, keyof T | keyof S> &
+          ThemeProps<T> &
+          {
+            [K in keyof S]: ThemeStyle<S[K]>;
+          }
+      >
+    >
+> {
   function ThemedComponent(
-    props: Omit<P, keyof T> & ThemeProps<S, T>,
-    ref: Ref<ComponentType<ThemeProps<S, P>>>
-  ) {
-    const themedProps = useThemedProps<S, P, T>(props, transformer);
+    props: Omit<P, keyof T | keyof S> &
+      ThemeProps<T> &
+      {
+        [K in keyof S]: ThemeStyle<S[K]>;
+      },
+    ref: Ref<
+      ComponentType<
+        Omit<P, keyof T | keyof S> &
+          ThemeProps<T> &
+          {
+            [K in keyof S]: ThemeStyle<S[K]>;
+          }
+      >
+    >
+  ): ReactElement<P> {
+    const theme = useContext(ThemeContext);
+    const themedProps: any = { ...props };
+
+    styles.forEach((key: keyof S) => {
+      themedProps[key] = transformStyle(props[key] as any, theme);
+    });
+
+    if (themed) {
+      themed.forEach((key: keyof T) => {
+        themedProps[key] = transformValue(props[key] as any, theme);
+      });
+    }
+
     return <Component {...themedProps} ref={ref} />;
   }
 
   return forwardRef(hoistNonReactStatics(ThemedComponent, Component));
 }
+
+export default createThemedComponent;

@@ -1,35 +1,23 @@
-import { TextInput, TextInputProps, TextStyle } from 'react-native';
-import createThemedComponent, {
-  transformValue,
-  ThemeProps
-} from '../createThemedComponent';
-import { transformPropsWithStyle } from './transformers';
+import { TextInput, TextInputProps } from 'react-native';
+import createThemedComponent from '../createThemedComponent';
 
-function transformTextInputProps(
-  props: ThemeProps<TextStyle, TextInputProps>,
-  mode: string
-): TextInputProps {
-  const themedStyleProps = transformPropsWithStyle(props, mode);
-
-  return {
-    ...themedStyleProps,
-    placeholderTextColor: transformValue(
-      props.placeholderTextColor as string | undefined,
-      mode
-    ),
-    underlineColorAndroid: transformValue(
-      props.underlineColorAndroid as string | undefined,
-      mode
-    ),
-    selectionColor: transformValue(
-      props.selectionColor as string | undefined,
-      mode
-    ),
-    keyboardAppearance: transformValue(
-      props.keyboardAppearance as 'default' | 'light' | 'dark' | undefined,
-      mode
-    )
-  };
-}
-
-export default createThemedComponent(TextInput, transformTextInputProps);
+export default createThemedComponent<
+  TextInputProps,
+  Pick<TextInputProps, 'style'>,
+  Pick<
+    TextInputProps,
+    | 'placeholderTextColor'
+    | 'underlineColorAndroid'
+    | 'selectionColor'
+    | 'keyboardAppearance'
+  >
+>(
+  TextInput,
+  ['style'],
+  [
+    'placeholderTextColor',
+    'underlineColorAndroid',
+    'selectionColor',
+    'keyboardAppearance'
+  ]
+);

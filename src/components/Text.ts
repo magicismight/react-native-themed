@@ -1,23 +1,8 @@
-import { TextProps, TextStyle, Text } from 'react-native';
-import createThemedComponent, {
-  transformValue,
-  ThemeProps
-} from '../createThemedComponent';
-import { transformPropsWithStyle } from './transformers';
+import { TextProps, Text } from 'react-native';
+import createThemedComponent from '../createThemedComponent';
 
-function transformTextProps(
-  props: ThemeProps<TextStyle, TextProps>,
-  mode: string
-): TextProps {
-  const themedStyleProps = transformPropsWithStyle(props, mode);
-
-  return {
-    ...themedStyleProps,
-    selectionColor: transformValue(
-      props.selectionColor as string | undefined,
-      mode
-    )
-  };
-}
-
-export default createThemedComponent(Text, transformTextProps);
+export default createThemedComponent<
+  TextProps,
+  Pick<TextProps, 'style'>,
+  Pick<TextProps, 'selectionColor'>
+>(Text, ['style'], ['selectionColor']);
