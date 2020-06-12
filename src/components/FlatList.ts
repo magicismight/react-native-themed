@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { ReactElement, RefAttributes, PropsWithoutRef } from 'react';
 import { ViewStyle, FlatList, FlatListProps } from 'react-native';
 import createThemedComponent, {
   ThemeProps,
@@ -26,22 +26,25 @@ export default createThemedComponent<
   ],
   ['indicatorStyle']
 ) as <T>(
-  props: Omit<
-    FlatListProps<T>,
-    | 'indicatorStyle'
-    | 'style'
-    | 'contentContainerStyle'
-    | 'ListFooterComponentStyle'
-    | 'columnWrapperStyle'
-    | 'ListHeaderComponentStyle'
+  props: PropsWithoutRef<
+    Omit<
+      FlatListProps<T>,
+      | 'indicatorStyle'
+      | 'style'
+      | 'contentContainerStyle'
+      | 'ListFooterComponentStyle'
+      | 'columnWrapperStyle'
+      | 'ListHeaderComponentStyle'
+    > &
+      ThemeProps<Pick<FlatListProps<T>, 'indicatorStyle'>> &
+      {
+        [K in
+          | 'style'
+          | 'contentContainerStyle'
+          | 'ListFooterComponentStyle'
+          | 'columnWrapperStyle'
+          | 'ListHeaderComponentStyle']: ThemeStyle<FlatListProps<T>[K]>;
+      }
   > &
-    ThemeProps<Pick<FlatListProps<T>, 'indicatorStyle'>> &
-    {
-      [K in
-        | 'style'
-        | 'contentContainerStyle'
-        | 'ListFooterComponentStyle'
-        | 'columnWrapperStyle'
-        | 'ListHeaderComponentStyle']: ThemeStyle<FlatListProps<T>[K]>;
-    }
+    RefAttributes<FlatList<T>>
 ) => ReactElement | null;
