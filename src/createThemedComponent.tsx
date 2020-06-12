@@ -45,7 +45,7 @@ export function transformValue<T>(
 }
 
 export function transformStyle<T>(
-  style?: StyleProp<ThemeStyle<T>>,
+  style: StyleProp<ThemeStyle<T>>,
   mode: string
 ): StyleProp<T> {
   if (!style) {
