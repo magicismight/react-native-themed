@@ -1,8 +1,14 @@
-import { ActivityIndicator, ActivityIndicatorProps } from 'react-native';
+import {
+  ActivityIndicator,
+  ActivityIndicatorProps,
+  ViewStyle
+} from 'react-native';
 import createThemedComponent from '../createThemedComponent';
 
 export default createThemedComponent<
   ActivityIndicatorProps,
-  Pick<ActivityIndicatorProps, 'style'>,
+  {
+    style: ViewStyle;
+  },
   Pick<ActivityIndicatorProps, 'color'>
 >(ActivityIndicator, ['style'], ['color']);

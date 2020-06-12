@@ -1,9 +1,11 @@
-import { RefreshControl, RefreshControlProps } from 'react-native';
+import { RefreshControl, RefreshControlProps, ViewStyle } from 'react-native';
 import createThemedComponent from '../createThemedComponent';
 
 export default createThemedComponent<
   RefreshControlProps,
-  Pick<RefreshControlProps, 'style'>,
+  {
+    style: ViewStyle;
+  },
   Pick<
     RefreshControlProps,
     'colors' | 'progressBackgroundColor' | 'tintColor' | 'titleColor'

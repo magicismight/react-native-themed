@@ -7,14 +7,13 @@ import createThemedComponent, {
 
 export default createThemedComponent<
   FlatListProps<unknown>,
-  Pick<
-    FlatListProps<unknown>,
-    | 'style'
-    | 'contentContainerStyle'
-    | 'ListFooterComponentStyle'
-    | 'columnWrapperStyle'
-    | 'ListHeaderComponentStyle'
-  >,
+  {
+    style: ViewStyle;
+    contentContainerStyle: ViewStyle;
+    ListFooterComponentStyle: ViewStyle;
+    columnWrapperStyle: ViewStyle;
+    ListHeaderComponentStyle: ViewStyle;
+  },
   Pick<FlatListProps<unknown>, 'indicatorStyle'>
 >(
   FlatList,

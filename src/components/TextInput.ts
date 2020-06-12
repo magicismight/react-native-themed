@@ -1,9 +1,11 @@
-import { TextInput, TextInputProps } from 'react-native';
+import { TextInput, TextInputProps, TextStyle } from 'react-native';
 import createThemedComponent from '../createThemedComponent';
 
 export default createThemedComponent<
   TextInputProps,
-  Pick<TextInputProps, 'style'>,
+  {
+    style: TextStyle;
+  },
   Pick<
     TextInputProps,
     | 'placeholderTextColor'

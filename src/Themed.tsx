@@ -19,6 +19,7 @@ import Text from './components/Text';
 import TextInput from './components/TextInput';
 import Image from './components/Image';
 import Value from './ThemedValue';
+export type ThemedValue = typeof Value;
 
 export default {
   Value,

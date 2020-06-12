@@ -1,8 +1,10 @@
-import { Image, ImageProps } from 'react-native';
+import { Image, ImageProps, ImageStyle } from 'react-native';
 import createThemedComponent from '../createThemedComponent';
 
 export default createThemedComponent<
   ImageProps,
-  Pick<ImageProps, 'style'>,
+  {
+    style: ImageStyle;
+  },
   Pick<ImageProps, 'source' | 'loadingIndicatorSource' | 'defaultSource'>
 >(Image, ['style'], ['source', 'loadingIndicatorSource', 'defaultSource']);

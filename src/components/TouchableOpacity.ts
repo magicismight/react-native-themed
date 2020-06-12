@@ -1,7 +1,13 @@
-import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import {
+  TouchableOpacity,
+  TouchableOpacityProps,
+  ViewStyle
+} from 'react-native';
 import createThemedComponent from '../createThemedComponent';
 
 export default createThemedComponent<
   TouchableOpacityProps,
-  Pick<TouchableOpacityProps, 'style'>
+  {
+    style: ViewStyle;
+  }
 >(TouchableOpacity, ['style']);

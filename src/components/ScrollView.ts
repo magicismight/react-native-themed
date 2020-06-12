@@ -1,9 +1,12 @@
-import { ScrollView, ScrollViewProps } from 'react-native';
+import { ScrollView, ScrollViewProps, ViewStyle } from 'react-native';
 import createThemedComponent from '../createThemedComponent';
 
 export default createThemedComponent<
   ScrollViewProps,
-  Pick<ScrollViewProps, 'style' | 'contentContainerStyle'>,
+  {
+    style: ViewStyle;
+    contentContainerStyle: ViewStyle;
+  },
   Pick<ScrollViewProps, 'endFillColor' | 'indicatorStyle'>
 >(
   ScrollView,
