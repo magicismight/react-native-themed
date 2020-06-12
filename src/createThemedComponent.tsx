@@ -6,7 +6,8 @@ import React, {
   ReactElement,
   PropsWithoutRef,
   RefAttributes,
-  ForwardRefExoticComponent
+  ForwardRefExoticComponent,
+  PropsWithChildren
 } from 'react';
 import { StyleSheet, StyleProp } from 'react-native';
 import hoistNonReactStatics from 'hoist-non-react-statics';
@@ -76,75 +77,81 @@ function createThemedComponent<
   P extends object, // original props
   S extends Partial<P> // themed style props
 >(
-  Component: ComponentType<P>,
+  Component: ComponentType<PropsWithChildren<P>>,
   styles: Array<keyof S>
 ): ForwardRefExoticComponent<
-  PropsWithoutRef<
-    Omit<P, keyof S> &
-      {
-        [K in keyof S]?: StyleProp<ThemeStyle<S[K]>>;
-      }
-  > &
-    RefAttributes<
-      ComponentType<
-        Omit<P, keyof S> &
-          {
-            [K in keyof S]?: StyleProp<ThemeStyle<S[K]>>;
-          }
+  PropsWithChildren<
+    PropsWithoutRef<
+      Omit<P, keyof S> &
+        {
+          [K in keyof S]?: StyleProp<ThemeStyle<S[K]>>;
+        }
+    > &
+      RefAttributes<
+        ComponentType<
+          Omit<P, keyof S> &
+            {
+              [K in keyof S]?: StyleProp<ThemeStyle<S[K]>>;
+            }
+        >
       >
-    >
+  >
 >;
 function createThemedComponent<
   P extends object, // original props
   S extends Partial<P>, // themed style props
   T extends Partial<P> // themed common props
 >(
-  Component: ComponentType<P>,
+  Component: ComponentType<PropsWithChildren<P>>,
   styles: Array<keyof S>,
   themed: Array<keyof T>
 ): ForwardRefExoticComponent<
-  PropsWithoutRef<
-    Omit<P, keyof T | keyof S> &
-      ThemeProps<T> &
-      {
-        [K in keyof S]?: StyleProp<ThemeStyle<S[K]>>;
-      }
-  > &
-    RefAttributes<
-      ComponentType<
-        Omit<P, keyof T | keyof S> &
-          ThemeProps<T> &
-          {
-            [K in keyof S]?: StyleProp<ThemeStyle<S[K]>>;
-          }
+  PropsWithChildren<
+    PropsWithoutRef<
+      Omit<P, keyof T | keyof S> &
+        ThemeProps<T> &
+        {
+          [K in keyof S]?: StyleProp<ThemeStyle<S[K]>>;
+        }
+    > &
+      RefAttributes<
+        ComponentType<
+          Omit<P, keyof T | keyof S> &
+            ThemeProps<T> &
+            {
+              [K in keyof S]?: StyleProp<ThemeStyle<S[K]>>;
+            }
+        >
       >
-    >
+  >
 >;
 function createThemedComponent<
   P extends object, // original props
   S extends Partial<P>, // themed style props
   T extends Partial<P> // themed common props
 >(
-  Component: ComponentType<P>,
+  Component: ComponentType<PropsWithChildren<P>>,
   styles: Array<keyof S>,
   themed?: Array<keyof T>
 ): ForwardRefExoticComponent<
-  PropsWithoutRef<
-    Omit<P, keyof T | keyof S> &
-      ThemeProps<T> &
-      {
-        [K in keyof S]?: StyleProp<ThemeStyle<S[K]>>;
-      }
-  > &
-    RefAttributes<
-      ComponentType<
-        Omit<P, keyof T | keyof S> &
-          ThemeProps<T> &
-          {
-            [K in keyof S]?: StyleProp<ThemeStyle<S[K]>>;
-          }
+  PropsWithChildren<
+    PropsWithoutRef<
+      Omit<P, keyof T | keyof S> &
+        ThemeProps<T> &
+        {
+          [K in keyof S]?: StyleProp<ThemeStyle<S[K]>>;
+        }
+    > &
+      RefAttributes<
+        ComponentType<
+          Omit<P, keyof T | keyof S> &
+            ThemeProps<T> &
+            {
+              [K in keyof S]?: StyleProp<ThemeStyle<S[K]>>;
+            }
+        >
       >
-    >
+  >
 > {
   function ThemedComponent(
     props: Omit<P, keyof T | keyof S> &
