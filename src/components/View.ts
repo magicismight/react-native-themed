@@ -1,4 +1,4 @@
-import { View, ViewProps, StyleProp } from 'react-native';
+import { View, ViewProps } from 'react-native';
 
 import createThemedComponent from '../createThemedComponent';
 
