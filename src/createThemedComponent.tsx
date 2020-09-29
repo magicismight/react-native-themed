@@ -53,11 +53,12 @@ export function transformStyle<T>(
     return style as StyleProp<T>;
   }
 
-  const flattenStyle = StyleSheet.flatten(style);
+  const flattenStyle = StyleSheet.flatten<StyleProp<ThemeStyle<T>>>(style);
 
   const themedStyle = Object.create(null);
   let hasThemedStyle: boolean = false;
-  for (const key of Object.keys(flattenStyle) as Array<keyof T>) {
+  for (const key of Object.keys(flattenStyle as object) as Array<keyof T>) {
+    // @ts-ignore
     const styleValue = flattenStyle[key];
     themedStyle[key] = transformValue(styleValue, mode);
 
