@@ -23,6 +23,8 @@ export default createThemedComponent<
     ScrollViewProps,
       | 'style'
       | 'contentContainerStyle'
+      | 'endFillColor'
+      | 'indicatorStyle'
     > &
       ThemeProps<Pick<ScrollViewProps, 'endFillColor' | 'indicatorStyle'>> &
       {
