@@ -1,4 +1,4 @@
-import { RefAttributes, PropsWithoutRef, ReactElement } from  'react';
+import React, { RefAttributes, PropsWithoutRef, PropsWithChildren, ReactElement } from  'react';
 import { ViewStyle, ScrollView, ScrollViewProps, StyleProp } from 'react-native';
 
 import createThemedComponent, {
@@ -18,7 +18,7 @@ export default createThemedComponent<
   ['style', 'contentContainerStyle'],
   ['endFillColor', 'indicatorStyle']
 ) as (
-  props: PropsWithoutRef<
+  props: PropsWithChildren<PropsWithoutRef<
     Omit<
     ScrollViewProps,
       | 'style'
@@ -34,6 +34,7 @@ export default createThemedComponent<
           ThemeStyle<ScrollViewProps[K]>
         >;
       }
-  > &
+  >> &
     RefAttributes<ScrollView>
 ) => ReactElement | null;
+
