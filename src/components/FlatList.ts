@@ -1,4 +1,9 @@
-import { ReactElement, RefAttributes, PropsWithoutRef, PropsWithChildren } from 'react';
+import {
+  ReactElement,
+  RefAttributes,
+  PropsWithoutRef,
+  PropsWithChildren
+} from 'react';
 import { ViewStyle, FlatList, FlatListProps, StyleProp } from 'react-native';
 import createThemedComponent, {
   ThemeProps,
@@ -26,27 +31,29 @@ export default createThemedComponent<
   ],
   ['indicatorStyle']
 ) as <T>(
-  props: PropsWithChildren<PropsWithoutRef<
-    Omit<
-      FlatListProps<T>,
-      | 'indicatorStyle'
-      | 'style'
-      | 'contentContainerStyle'
-      | 'ListFooterComponentStyle'
-      | 'columnWrapperStyle'
-      | 'ListHeaderComponentStyle'
-    > &
-      ThemeProps<Pick<FlatListProps<T>, 'indicatorStyle'>> &
-      {
-        [K in
-          | 'style'
-          | 'contentContainerStyle'
-          | 'ListFooterComponentStyle'
-          | 'columnWrapperStyle'
-          | 'ListHeaderComponentStyle']?: StyleProp<
-          ThemeStyle<FlatListProps<T>[K]>
-        >;
-      }
-  >> &
+  props: PropsWithChildren<
+    PropsWithoutRef<
+      Omit<
+        FlatListProps<T>,
+        | 'indicatorStyle'
+        | 'style'
+        | 'contentContainerStyle'
+        | 'ListFooterComponentStyle'
+        | 'columnWrapperStyle'
+        | 'ListHeaderComponentStyle'
+      > &
+        ThemeProps<Pick<FlatListProps<T>, 'indicatorStyle'>> &
+        {
+          [K in
+            | 'style'
+            | 'contentContainerStyle'
+            | 'ListFooterComponentStyle'
+            | 'columnWrapperStyle'
+            | 'ListHeaderComponentStyle']?: StyleProp<
+            ThemeStyle<FlatListProps<T>[K]>
+          >;
+        }
+    >
+  > &
     RefAttributes<FlatList<T>>
 ) => ReactElement | null;
