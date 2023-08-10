@@ -5,6 +5,7 @@
     "sourceMap": true,
     "declaration": true,
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "moduleResolution": "node",
     "lib": ["es2015", "es2016", "esnext"],
     "jsx": "react-native",
